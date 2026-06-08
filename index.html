@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shiny Rizz - Light & Glow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .light-orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 200, 100, 0.4));
+            border-radius: 50%;
+            box-shadow: 
+                0 0 60px 20px rgba(255, 200, 100, 0.6),
+                0 0 100px 40px rgba(255, 150, 50, 0.3),
+                inset -30px -30px 60px rgba(0, 0, 0, 0.2);
+            animation: pulse 4s ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .light-orb:hover {
+            width: 350px;
+            height: 350px;
+            box-shadow: 
+                0 0 80px 30px rgba(255, 200, 100, 0.8),
+                0 0 120px 50px rgba(255, 150, 50, 0.5),
+                inset -30px -30px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 
+                    0 0 60px 20px rgba(255, 200, 100, 0.6),
+                    0 0 100px 40px rgba(255, 150, 50, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 
+                    0 0 80px 30px rgba(255, 200, 100, 0.8),
+                    0 0 120px 50px rgba(255, 150, 50, 0.5);
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 200, 100, 0.8);
+            animation: glow-text 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-text {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(255, 200, 100, 0.8);
+            }
+            50% {
+                text-shadow: 0 0 40px rgba(255, 150, 50, 1);
+            }
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .interactive-light {
+            width: 150px;
+            height: 150px;
+            margin: 30px auto;
+            background: radial-gradient(circle, rgba(255, 255, 100, 0.9), rgba(255, 150, 0, 0.3));
+            border-radius: 50%;
+            box-shadow: 0 0 40px 15px rgba(255, 200, 100, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .button-group {
+            margin-top: 40px;
+        }
+
+        button {
+            padding: 12px 30px;
+            margin: 10px;
+            font-size: 1rem;
+            border: 2px solid rgba(255, 200, 100, 0.8);
+            background: rgba(255, 200, 100, 0.1);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 200, 100, 0.3);
+        }
+
+        button:hover {
+            background: rgba(255, 200, 100, 0.3);
+            box-shadow: 0 0 30px rgba(255, 200, 100, 0.6);
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars-container"></div>
+    
+    <div class="container">
+        <div class="light-orb" id="lightOrb"></div>
+        
+        <div class="content">
+            <h1>✨ Shiny Rizz ✨</h1>
+            <div class="interactive-light"></div>
+            <p>Click the light or watch it shine</p>
+            
+            <div class="button-group">
+                <button onclick="changeColor()">Change Color</button>
+                <button onclick="intensifyLight()">Intensify</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create twinkling stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Change light color
+        function changeColor() {
+            const colors = [
+                'rgba(255, 200, 100, 0.8)',
+                'rgba(100, 200, 255, 0.8)',
+                'rgba(255, 100, 200, 0.8)',
+                'rgba(100, 255, 150, 0.8)',
+                'rgba(255, 100, 100, 0.8)'
+            ];
+            
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            const lightOrb = document.getElementById('lightOrb');
+            lightOrb.style.transition = 'all 0.5s ease';
+            lightOrb.style.boxShadow = `0 0 80px 30px ${randomColor}`;
+        }
+
+        // Intensify the light
+        function intensifyLight() {
+            const lightOrb = document.getElementById('lightOrb');
+            lightOrb.style.transition = 'all 0.3s ease';
+            lightOrb.style.transform = 'scale(1.3)';
+            lightOrb.style.boxShadow = '0 0 100px 50px rgba(255, 200, 100, 1)';
+            
+            setTimeout(() => {
+                lightOrb.style.transform = 'scale(1)';
+                lightOrb.style.boxShadow = '0 0 60px 20px rgba(255, 200, 100, 0.6)';
+            }, 300);
+        }
+
+        // Click the light orb
+        document.getElementById('lightOrb').addEventListener('click', () => {
+            changeColor();
+            intensifyLight();
+        });
+
+        // Initialize
+        createStars();
+    </script>
+</body>
+</html>
