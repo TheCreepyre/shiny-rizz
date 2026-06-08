@@ -48,33 +48,55 @@
         margin: 0;
         color: #bbb;
       }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
     </style>
   </head>
   <body>
-    <p>Decorative flashing light. Use the button to pause or resume.</p>
+    <p>
+      Warning: this page contains flashing lights that may affect people with photosensitive
+      epilepsy. Use the button to start or stop the effect.
+    </p>
     <div id="light" aria-hidden="true"></div>
-    <button id="toggle" type="button">Pause flashing</button>
+    <button id="toggle" type="button" aria-pressed="false">Start flashing</button>
+    <div id="status" class="sr-only" aria-live="polite">Flashing is paused.</div>
     <script>
-      const FLASH_INTERVAL_MS = 500;
+      const FLASH_INTERVAL_MILLISECONDS = 1000;
       const light = document.getElementById("light");
       const button = document.getElementById("toggle");
+      const status = document.getElementById("status");
 
       const toggleLight = () => {
         light.classList.toggle("on");
       };
 
-      let timer = setInterval(toggleLight, FLASH_INTERVAL_MS);
+      let timer = null;
 
       button.addEventListener("click", () => {
-        if (timer) {
+        if (timer !== null) {
           clearInterval(timer);
           timer = null;
-          button.textContent = "Resume flashing";
+          light.classList.remove("on");
+          button.textContent = "Start flashing";
+          button.setAttribute("aria-pressed", "false");
+          status.textContent = "Flashing is paused.";
           return;
         }
 
-        timer = setInterval(toggleLight, FLASH_INTERVAL_MS);
-        button.textContent = "Pause flashing";
+        timer = setInterval(toggleLight, FLASH_INTERVAL_MILLISECONDS);
+        button.textContent = "Stop flashing";
+        button.setAttribute("aria-pressed", "true");
+        status.textContent = "Flashing is active.";
       });
     </script>
   </body>
