@@ -14,6 +14,7 @@
         min-height: 100vh;
         display: grid;
         place-items: center;
+        gap: 1rem;
         background: #000;
         font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       }
@@ -33,15 +34,48 @@
           0 0 70px #fff,
           0 0 120px #4da3ff;
       }
+
+      button {
+        padding: 0.65rem 1rem;
+        border: 1px solid #444;
+        border-radius: 0.5rem;
+        background: #111;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      p {
+        margin: 0;
+        color: #bbb;
+      }
     </style>
   </head>
   <body>
-    <div id="light" aria-label="flashing light" role="img"></div>
+    <p>Decorative flashing light. Use the button to pause or resume.</p>
+    <div id="light" aria-hidden="true"></div>
+    <button id="toggle" type="button">Pause flashing</button>
     <script>
+      const FLASH_INTERVAL_MS = 500;
       const light = document.getElementById("light");
-      setInterval(() => {
+      const button = document.getElementById("toggle");
+
+      const toggleLight = () => {
         light.classList.toggle("on");
-      }, 220);
+      };
+
+      let timer = setInterval(toggleLight, FLASH_INTERVAL_MS);
+
+      button.addEventListener("click", () => {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+          button.textContent = "Resume flashing";
+          return;
+        }
+
+        timer = setInterval(toggleLight, FLASH_INTERVAL_MS);
+        button.textContent = "Pause flashing";
+      });
     </script>
   </body>
 </html>
