@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flashing Light</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #000;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+
+      #light {
+        width: min(70vmin, 420px);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: #111;
+        box-shadow: 0 0 20px #000;
+      }
+
+      #light.on {
+        background: #fff;
+        box-shadow:
+          0 0 25px #fff,
+          0 0 70px #fff,
+          0 0 120px #4da3ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="light" aria-label="flashing light" role="img"></div>
+    <script>
+      const light = document.getElementById("light");
+      setInterval(() => {
+        light.classList.toggle("on");
+      }, 220);
+    </script>
+  </body>
+</html>
